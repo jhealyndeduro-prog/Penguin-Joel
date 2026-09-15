@@ -9,182 +9,249 @@
    OPENING SURPRISE
 ========================================= */
 
-const openButton = document.getElementById("openButton");
+const openButton =
+    document.getElementById("openButton");
 
-openButton.addEventListener("click", function () {
 
-    // Change button text
-    openButton.innerHTML = "Welcome, birthday boy ❤️";
+openButton.addEventListener(
+    "click",
+    function () {
 
-    // Little celebration
-    createHearts();
+        openButton.innerHTML =
+            "Welcome, birthday boy ❤️";
 
-    // Smoothly move to the birthday section
-    setTimeout(function () {
-        document.querySelector(".birthday").scrollIntoView({
-            behavior: "smooth"
-        });
-    }, 500);
+        createHearts();
 
-});
+        setTimeout(function () {
+
+            document
+                .querySelector(".birthday")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }, 500);
+
+    }
+);
 
 
 /* =========================================
-   FLOATING HEARTS
+   FLOATING HEARTS + PENGUINS
 ========================================= */
 
 function createHearts() {
 
-    const hearts = ["♥", "♡", "❤️", "🐧"];
+    const symbols = [
+        "♥",
+        "♡",
+        "❤️",
+        "🐧"
+    ];
+
 
     for (let i = 0; i < 15; i++) {
 
-        const heart = document.createElement("div");
+        const heart =
+            document.createElement("div");
+
+
+        heart.className =
+            "floating-heart";
+
 
         heart.innerHTML =
-            hearts[Math.floor(Math.random() * hearts.length)];
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
 
-        heart.style.position = "fixed";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.bottom = "-30px";
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+
         heart.style.fontSize =
             Math.random() * 20 + 15 + "px";
 
-        heart.style.zIndex = "1000";
-        heart.style.pointerEvents = "none";
 
-        heart.style.transition =
-            "transform 3s ease-out, opacity 3s ease-out";
+        heart.style.animationDuration =
+            Math.random() * 2 + 2 + "s";
 
-        document.body.appendChild(heart);
 
-        setTimeout(function () {
+        document.body.appendChild(
+            heart
+        );
 
-            heart.style.transform =
-                `translateY(-${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`;
-
-            heart.style.opacity = "0";
-
-        }, 50);
 
         setTimeout(function () {
+
             heart.remove();
-        }, 3200);
+
+        }, 4000);
+
     }
+
 }
 
 
 /* =========================================
-   MUSIC PLAYER
+   MUSIC BUTTON
 ========================================= */
 
-// We will connect your actual song later.
+const musicButton =
+    document.getElementById("musicButton");
 
-const musicButton = document.getElementById("musicButton");
 
 let musicPlaying = false;
 
-musicButton.addEventListener("click", function () {
 
-    if (!musicPlaying) {
+musicButton.addEventListener(
+    "click",
+    function () {
 
-        musicButton.innerHTML = "♫ Our song is playing... ❤️";
+        if (!musicPlaying) {
 
-        musicPlaying = true;
+            musicButton.innerHTML =
+                "♫ Our song is playing... ❤️";
 
-    } else {
+            musicPlaying = true;
 
-        musicButton.innerHTML = "♫ Play Our Song";
+        } else {
 
-        musicPlaying = false;
+            musicButton.innerHTML =
+                "♫ Play Our Song";
+
+            musicPlaying = false;
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================
    SCROLL REVEAL
 ========================================= */
 
-const sections = document.querySelectorAll("section");
+const sections =
+    document.querySelectorAll("section");
 
-const observer = new IntersectionObserver(
 
-    function (entries) {
+const observer =
+    new IntersectionObserver(
 
-        entries.forEach(function (entry) {
+        function (entries) {
 
-            if (entry.isIntersecting) {
+            entries.forEach(
+                function (entry) {
 
-                entry.target.style.opacity = "1";
-                entry.target.style.transform =
-                    "translateY(0)";
+                    if (
+                        entry.isIntersecting
+                    ) {
 
-            }
+                        entry.target.style.opacity =
+                            "1";
 
-        });
+                        entry.target.style.transform =
+                            "translateY(0)";
 
-    },
+                    }
 
-    {
-        threshold: 0.15
+                }
+            );
+
+        },
+
+        {
+            threshold: 0.08
+        }
+
+    );
+
+
+sections.forEach(
+    function (section) {
+
+        section.style.opacity =
+            "0";
+
+        section.style.transform =
+            "translateY(30px)";
+
+        section.style.transition =
+            "opacity 1s ease, transform 1s ease";
+
+        observer.observe(section);
+
     }
-
 );
-
-
-sections.forEach(function (section) {
-
-    section.style.opacity = "0";
-    section.style.transform = "translateY(30px)";
-    section.style.transition =
-        "opacity 1s ease, transform 1s ease";
-
-    observer.observe(section);
-
-});
 
 
 /* =========================================
    FINAL BIRTHDAY SURPRISE
 ========================================= */
 
-const finalSection = document.querySelector(".final");
+const finalSection =
+    document.querySelector(".final");
 
-let finalCelebrationDone = false;
 
-const finalObserver = new IntersectionObserver(
+let finalCelebrationDone =
+    false;
 
-    function (entries) {
 
-        entries.forEach(function (entry) {
+const finalObserver =
+    new IntersectionObserver(
 
-            if (
-                entry.isIntersecting &&
-                !finalCelebrationDone
-            ) {
+        function (entries) {
 
-                finalCelebrationDone = true;
+            entries.forEach(
+                function (entry) {
 
-                setTimeout(function () {
-                    createHearts();
-                }, 500);
+                    if (
+                        entry.isIntersecting &&
+                        !finalCelebrationDone
+                    ) {
 
-                setTimeout(function () {
-                    createHearts();
-                }, 1500);
+                        finalCelebrationDone =
+                            true;
 
-            }
 
-        });
+                        setTimeout(
+                            function () {
 
-    },
+                                createHearts();
 
-    {
-        threshold: 0.4
-    }
+                            },
+                            500
+                        );
 
+
+                        setTimeout(
+                            function () {
+
+                                createHearts();
+
+                            },
+                            1500
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold: 0.3
+        }
+
+    );
+
+
+finalObserver.observe(
+    finalSection
 );
-
-finalObserver.observe(finalSection);
