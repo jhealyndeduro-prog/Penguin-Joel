@@ -424,3 +424,90 @@ button:hover {
         font-size: 3.5rem;
     }
 }
+
+/* =========================
+   PHOTO GALLERY
+========================= */
+
+.memory-intro {
+    color: var(--muted);
+    margin-bottom: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+}
+
+.photo-gallery {
+    width: min(1100px, 95%);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px 30px;
+    align-items: start;
+}
+
+.polaroid {
+    background: #f4eadb;
+    padding: 12px 12px 28px;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.45);
+    color: #24191a;
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.polaroid:nth-child(odd) {
+    transform: rotate(-2deg);
+}
+
+.polaroid:nth-child(even) {
+    transform: rotate(2deg);
+}
+
+.polaroid:nth-child(3n) {
+    transform: rotate(-1deg);
+}
+
+.polaroid:hover {
+    transform:
+        rotate(0deg)
+        translateY(-12px)
+        scale(1.03);
+
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.55);
+    z-index: 5;
+}
+
+.polaroid img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+.polaroid p {
+    font-family: 'Parisienne', cursive;
+    font-size: 1.4rem;
+    margin: 12px auto 0;
+    text-align: center;
+    color: #3a2022;
+}
+
+/* Mobile gallery */
+
+@media (max-width: 700px) {
+
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px 15px;
+        width: 100%;
+    }
+
+    .polaroid {
+        padding: 8px 8px 20px;
+    }
+
+    .polaroid p {
+        font-size: 1.1rem;
+    }
+}
