@@ -1,257 +1,135 @@
-/* =========================================
-   PENGUIN-JOEL
-   Birthday Website
-   From Baby ❤️
-========================================= */
+// ===============================
+// BIRTHDAY WEBSITE SCRIPT
+// For Joel 🐧
+// ===============================
 
+const openButton = document.getElementById("openButton");
+const backgroundMusic = document.getElementById("backgroundMusic");
 
-/* =========================================
-   OPENING SURPRISE
-========================================= */
+// ===============================
+// OPEN SURPRISE
+// ===============================
 
-const openButton =
-    document.getElementById("openButton");
+openButton.addEventListener("click", function () {
 
+    // Change button text
+    openButton.innerHTML = "Welcome, birthday boy ❤️";
 
-openButton.addEventListener(
-    "click",
-    function () {
+    // Start background music
+    if (backgroundMusic) {
+        backgroundMusic.volume = 0.45;
 
-        openButton.innerHTML =
-            "Welcome, birthday boy ❤️";
-
-        createHearts();
-
-        setTimeout(function () {
-
-            document
-                .querySelector(".birthday")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-
-        }, 500);
-
+        backgroundMusic.play().catch(function (error) {
+            console.log("Music could not autoplay:", error);
+        });
     }
-);
+
+    // Create floating hearts and penguins
+    createHearts();
+
+    // Scroll to birthday section
+    setTimeout(function () {
+        document.querySelector(".birthday").scrollIntoView({
+            behavior: "smooth"
+        });
+    }, 500);
+});
 
 
-/* =========================================
-   FLOATING HEARTS + PENGUINS
-========================================= */
+// ===============================
+// FLOATING HEARTS & PENGUINS
+// ===============================
 
 function createHearts() {
 
-    const symbols = [
-        "♥",
-        "♡",
-        "❤️",
-        "🐧"
-    ];
-
+    const symbols = ["❤️", "♡", "🐧", "❤️", "♡"];
 
     for (let i = 0; i < 15; i++) {
 
-        const heart =
-            document.createElement("div");
+        const heart = document.createElement("div");
 
-
-        heart.className =
-            "floating-heart";
-
+        heart.classList.add("floating-heart");
 
         heart.innerHTML =
-            symbols[
-                Math.floor(
-                    Math.random() *
-                    symbols.length
-                )
-            ];
+            symbols[Math.floor(Math.random() * symbols.length)];
 
-
-        heart.style.left =
-            Math.random() * 100 + "vw";
-
-
-        heart.style.fontSize =
-            Math.random() * 20 + 15 + "px";
-
+        heart.style.left = Math.random() * 100 + "vw";
 
         heart.style.animationDuration =
-            Math.random() * 2 + 2 + "s";
+            (4 + Math.random() * 4) + "s";
 
+        heart.style.animationDelay =
+            Math.random() * 2 + "s";
 
-        document.body.appendChild(
-            heart
-        );
+        document.body.appendChild(heart);
 
-
+        // Remove after animation
         setTimeout(function () {
-
             heart.remove();
-
-        }, 4000);
-
+        }, 9000);
     }
-
 }
 
 
-/* =========================================
-   MUSIC BUTTON
-========================================= */
+// ===============================
+// SCROLL REVEAL
+// ===============================
 
-const musicButton =
-    document.getElementById("musicButton");
+const sections = document.querySelectorAll("section");
 
+const revealObserver = new IntersectionObserver(
+    function (entries) {
 
-let musicPlaying = false;
+        entries.forEach(function (entry) {
 
+            if (entry.isIntersecting) {
 
-musicButton.addEventListener(
-    "click",
-    function () {
+                entry.target.classList.add("visible");
 
-        if (!musicPlaying) {
+            }
 
-            musicButton.innerHTML =
-                "♫ Our song is playing... ❤️";
+        });
 
-            musicPlaying = true;
-
-        } else {
-
-            musicButton.innerHTML =
-                "♫ Play Our Song";
-
-            musicPlaying = false;
-
-        }
-
+    },
+    {
+        threshold: 0.15
     }
 );
 
+sections.forEach(function (section) {
 
-/* =========================================
-   SCROLL REVEAL
-========================================= */
+    revealObserver.observe(section);
 
-const sections =
-    document.querySelectorAll("section");
+});
 
 
-const observer =
-    new IntersectionObserver(
+// ===============================
+// FINAL BIRTHDAY CELEBRATION
+// ===============================
 
-        function (entries) {
+const finalSection = document.querySelector(".final");
 
-            entries.forEach(
-                function (entry) {
+const finalObserver = new IntersectionObserver(
+    function (entries) {
 
-                    if (
-                        entry.isIntersecting
-                    ) {
+        entries.forEach(function (entry) {
 
-                        entry.target.style.opacity =
-                            "1";
+            if (entry.isIntersecting) {
 
-                        entry.target.style.transform =
-                            "translateY(0)";
+                createHearts();
 
-                    }
+            }
 
-                }
-            );
+        });
 
-        },
-
-        {
-            threshold: 0.08
-        }
-
-    );
-
-
-sections.forEach(
-    function (section) {
-
-        section.style.opacity =
-            "0";
-
-        section.style.transform =
-            "translateY(30px)";
-
-        section.style.transition =
-            "opacity 1s ease, transform 1s ease";
-
-        observer.observe(section);
-
+    },
+    {
+        threshold: 0.4
     }
 );
 
+if (finalSection) {
 
-/* =========================================
-   FINAL BIRTHDAY SURPRISE
-========================================= */
+    finalObserver.observe(finalSection);
 
-const finalSection =
-    document.querySelector(".final");
-
-
-let finalCelebrationDone =
-    false;
-
-
-const finalObserver =
-    new IntersectionObserver(
-
-        function (entries) {
-
-            entries.forEach(
-                function (entry) {
-
-                    if (
-                        entry.isIntersecting &&
-                        !finalCelebrationDone
-                    ) {
-
-                        finalCelebrationDone =
-                            true;
-
-
-                        setTimeout(
-                            function () {
-
-                                createHearts();
-
-                            },
-                            500
-                        );
-
-
-                        setTimeout(
-                            function () {
-
-                                createHearts();
-
-                            },
-                            1500
-                        );
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold: 0.3
-        }
-
-    );
-
-
-finalObserver.observe(
-    finalSection
-);
+}
